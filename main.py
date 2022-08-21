@@ -26,7 +26,7 @@ def inference():
     for d in data:
         labse_embedding = np.zeros((17, 768))
         corpus = [d['name']]
-        for prop in d['props']:
+        for prop in d['props'][:16]:
             corpus.append(prop.replace('\t', ' '))
         corpus_embedding = np.array(labse_model.encode(corpus))
         labse_embedding[:corpus_embedding.shape[0], :] = corpus_embedding
