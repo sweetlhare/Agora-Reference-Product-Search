@@ -7,6 +7,7 @@ from model import get_model
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
+
 model, _ = get_model()
 model.load_weights('assets/ArcFaceModel_best.h5')
 embed_model = tf.keras.models.Model(inputs=model.input[0], 
@@ -14,6 +15,7 @@ embed_model = tf.keras.models.Model(inputs=model.input[0],
 labse_model = SentenceTransformer('assets/labse_model')
 knn = pickle.load(open('assets/knnpickle', 'rb'))
 reference_id_db = np.load('assets/reference_id_db.npy', allow_pickle=True)
+
 
 @app.route('/match_products/', methods=['GET', 'POST'])
 def inference():
@@ -42,3 +44,7 @@ def inference():
         res.append({"id": d['id'], "reference_id": refid})
 
     return jsonify(res)
+  
+  
+if __name__ == '__main__':
+    app.run()
